@@ -41,7 +41,12 @@ def build_output_df(
     # Implement this function according to the given requirements
     # of your coding interview question.
 
-    return 
+    output_df = input_stories_df.withColumn("language", udfs.lang_detect(input_stories_df["content"]))
+    
+    output_df = output_df.withColumn("dt", F.to_date(F.lit(processing_dt), 'yyyy-MM-dd'))
+    #output_df.drop('content', 'last_modified_ts')
+    output_df = output_df.select('id', 'language', 'dt')
+    return output_df
 
 
 def main(
